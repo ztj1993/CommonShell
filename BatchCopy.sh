@@ -29,7 +29,7 @@ fi
 
 ### 定义帮助文本
 if [ "${1}" == "help" ] || [ "${1}" == "" ]; then
-    echo ">>> params 1 <Path Path...>(ArrayString)[OriginalPath=>TargetPath]"
+    echo ">>> Params <Path Path...>(ArrayString)[OriginalPath=>TargetPath]"
     exit 0
 fi
 

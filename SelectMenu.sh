@@ -30,7 +30,7 @@ fi
 
 ### 定义帮助文本
 if [ "${1}" == "help" ]; then
-    echo ">>> params 1 <Title ItemArray ItemArray...>(ArrayString)"
+    echo ">>> Params <Title ItemArray ItemArray...>(ArrayString)"
     exit 0
 fi
 
