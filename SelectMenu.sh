@@ -9,25 +9,6 @@
 # Returns: 0:skip-quit   1-254:index   255:error
 ###############
 
-### 使用示例
-if [ "${1}" == "debug1" ] && [ ! ${debug} ]; then
-    debug=true
-    ShellPath=$(cd $(dirname $(readlink -f "${BASH_SOURCE[0]}")) && pwd )
-    SelectMenuItems=("7.1" "5 6")
-    SelectMenuTitle="请选择主 PHP 版本"
-    source ${ShellPath}/SelectMenu.sh
-    echo "MainVersion=${SelectMenuItem}"
-    exit 0
-fi
-if [ "${1}" == "debug2" ] && [ ! ${debug} ]; then
-    debug=true
-    ShellPath=$(cd $(dirname $(readlink -f "${BASH_SOURCE[0]}")) && pwd )
-    args=("请选择主 PHP 版本" "7.1" "5 6")
-    bash ${ShellPath}/SelectMenu.sh "${args[@]}"
-    echo "MainVersion=${args[$?]}"
-    exit 0
-fi
-
 ### 定义帮助文本
 if [ "${1}" == "help" ]; then
     echo ">>> Params <Title ItemArray ItemArray...>(ArrayString)"

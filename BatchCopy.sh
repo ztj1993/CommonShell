@@ -8,25 +8,6 @@
 # Returns: 0:skip-quit   1:error
 ###############
 
-### 使用示例
-if [ "${1}" == "debug1" ] && [ ! ${debug} ]; then
-    debug=true
-    ShellPath=$(cd $(dirname $(readlink -f "${BASH_SOURCE[0]}")) && pwd )
-    BatchCopyPaths=(
-        "${ShellPath}/BatchCopy.sh=>${ShellPath}/BatchCopy.sh.bak1"
-        "${ShellPath}/BatchCopy.sh=>${ShellPath}/BatchCopy.sh.bak2"
-    )
-    source ${ShellPath}/BatchCopy.sh
-    [ ! -f "${ShellPath}/BatchCopy.sh.bak1" ] && echo "error bak1" && exit 1
-    [ ! -f "${ShellPath}/BatchCopy.sh.bak2" ] && echo "error bak2" && exit 1
-    rm -rf ${ShellPath}/BatchCopy.sh.bak*
-    bash ${ShellPath}/BatchCopy.sh "${BatchCopyPaths[@]}"
-    [ ! -f "${ShellPath}/BatchCopy.sh.bak1" ] && echo "error bak1" && exit 1
-    [ ! -f "${ShellPath}/BatchCopy.sh.bak2" ] && echo "error bak2" && exit 1
-    rm -rf ${ShellPath}/BatchCopy.sh.bak*
-    exit 0
-fi
-
 ### 定义帮助文本
 if [ "${1}" == "help" ] || [ "${1}" == "" ]; then
     echo ">>> Params <Path Path...>(ArrayString)[OriginalPath=>TargetPath]"
@@ -45,6 +26,17 @@ fi
 ### 循环数组
 for Path in ${BatchCopyPaths[@]}
 do
+    SrcPath=${Path%=>*}
+    DistPath=${Path#*=>}
+    ### 跳过不存在路径
+    if [ "${SkipNotExist}" == "yes" ]; then
+        if [ ! -e ${SrcPath%\*} ]; then
+            continue
+        fi
+        if [ ! -e ${DistPath} ]; then
+            continue
+        fi
+    fi
     ### 复制文件
     \cp -fR ${Path%=>*} ${Path#*=>}
     [ $? -ne 0 ] && echo ">>>>> Error: copy path error" && exit 1

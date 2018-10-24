@@ -10,16 +10,6 @@
 # Returns: 0:skip-quit   1:error
 ###############
 
-### 使用示例
-if [ "${1}" == "debug1" ] && [ ! ${debug} ]; then
-    debug=true
-    ShellPath=$(cd $(dirname $(readlink -f "${BASH_SOURCE[0]}")) && pwd )
-    bash ${ShellPath}/PathBackup.sh "${ShellPath}/PathBackup.sh" "${ShellPath}"
-    [ ! -f "${ShellPath}/PathBackup.sh.bak" ] && echo "error" && exit 1
-    rm -rf ${ShellPath}/PathBackup.sh.bak*
-    exit 0
-fi
-
 ### 定义帮助文本
 if [ "${1}" == "help" ]; then
     echo ">>> param 1 <OriginalPath>(FilePath|DirPath|Required)"
