@@ -9,8 +9,9 @@
 function getFirstExistPath () {
     for Path in ${*}
     do
-        [ -e ${Path} ] && return ${Path}
+        [ -e "${Path}" ] && echo "${Path}" && return 0
     done
+    return 1
 }
 
 ###############
