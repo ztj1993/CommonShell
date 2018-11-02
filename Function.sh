@@ -39,3 +39,19 @@ function userConfirm () {
     # 通过返回
     return 0
 }
+
+###############
+# Name: 获取字符串数组元素
+# Params 1: <String> 字符串
+# Params 2: <Delimiter> 定界符
+# Params 3: <Index> 索引
+# author: ZhangTianJie
+# email: ztj1993@gmail.com
+###############
+function getStringArrayItem () {
+    Str=${1}
+    Delimiter=${2}
+    Index=${3}
+    Arr=(${Str//$Delimiter/ })
+    echo ${Arr[$Index]}
+}
