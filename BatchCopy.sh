@@ -9,7 +9,7 @@
 ###############
 
 ### 定义帮助文本
-if [ "${1}" == "help" ] || [ "${1}" == "" ]; then
+if [ "${1}" == "help" ]; then
     echo ">>> Params <Path Path...>(ArrayString)[OriginalPath=>TargetPath]"
     exit 0
 fi
@@ -38,6 +38,9 @@ do
         fi
     fi
     ### 复制文件
-    \cp -fR ${Path%=>*} ${Path#*=>}
-    [ $? -ne 0 ] && echo ">>>>> Error: copy path error" && exit 1
+    sudo \cp -fR ${Path%=>*} ${Path#*=>}
+    if [ $? -ne 0 ]; then
+        echo ">>>>> Error: copy path error"
+        exit 1
+    fi
 done
