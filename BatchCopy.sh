@@ -1,16 +1,19 @@
 #!/bin/bash
 
 ###############
-# Name: 批量路径复制
-# author: ZhangTianJie
-# email: ztj1993@gmail.com
-# Params: <Path Path...>(ArrayString)[OriginalPath=>TargetPath]
-# Returns: 0:skip-quit   1:error
+# Name: 批量路径复制脚本
+# Author: ZhangTianJie
+# Email: ztj1993@gmail.com
+# Params: <BatchCopyPaths>[ArrayString](SrcPath=>DistPath)
+# Return=0: 所有路径复制成功
+# Return=!0: 有一项没有复制成功，返回第几项
 ###############
 
 ### 定义帮助文本
 if [ "${1}" == "help" ]; then
-    echo ">>> Params <Path Path...>(ArrayString)[OriginalPath=>TargetPath]"
+    echo ">>> Params: <BatchCopyPaths>[ArrayString](SrcPath=>DistPath)"
+    echo ">>> Return=0: 所有路径复制成功"
+    echo ">>> Return=!0: 有一项没有复制成功，返回第几项"
     exit 0
 fi
 
@@ -19,13 +22,14 @@ fi
 
 ### 判断是否定义了路径
 if [ "${BatchCopyPaths[*]}" == "" ]; then
-    echo ">>>>> Error: the var <BatchCopyPaths>(ArrayString) does not exist"
+    echo ">>>>> Error: the var <BatchCopyPaths> does not exist"
     exit 1
 fi
 
 ### 循环数组
-for Path in ${BatchCopyPaths[@]}
+for i in ${!BatchCopyPaths[@]}
 do
+    Path=${BatchCopyPaths[$i]}
     SrcPath=${Path%=>*}
     DistPath=${Path#*=>}
     ### 跳过不存在路径
@@ -40,7 +44,7 @@ do
     ### 复制文件
     sudo \cp -fR ${Path%=>*} ${Path#*=>}
     if [ $? -ne 0 ]; then
-        echo ">>>>> Error: copy path error"
-        exit 1
+        echo ">>>>> Error: copy <${Path}> error"
+        exit $(($i+1))
     fi
 done
