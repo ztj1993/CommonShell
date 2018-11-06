@@ -2,20 +2,22 @@
 
 ###############
 # Name: 简单模板引擎
-# author: ZhangTianJie
-# email: ztj1993@gmail.com
-# Use: curl -sSL http://dwz.cn/tJvCyBGb > /tmp/SelectMenu && source /tmp/SelectMenu
-# Param 1: <FilePath|TplContent>(FilePath|String|Required)
-# Param 2: <OutFile>(FilePath)
-# Param Other: <Var...>(ArrayString)[name=>value]
-# Returns: 0:skip-quit   1:error
+# Author: ZhangTianJie
+# Email: ztj1993@gmail.com
+# Params: <TplContent>[TplString|FilePath|Required]
+# Params: <OutFile>[FilePath]
+# Return=0: success
+# Return=1: failure
+# Output: result content OR error message
 ###############
 
 ### 定义帮助文本
 if [ "${1}" == "help" ]; then
-    echo ">>> param 1 <FilePath|TplContent>(FilePath|String|Required)"
-    echo ">>> param 2 <OutFile>(FilePath)"
-    echo ">>> Param Other <Var...>(ArrayString)[name=>value]"
+    echo ">>> Params: <TplContent>[TplString|FilePath|Required]"
+    echo ">>> Params: <OutFile>[FilePath]"
+    echo ">>> Return=0: success"
+    echo ">>> Return=1: failure"
+    echo ">>> Output: result content OR error message"
     exit 0
 fi
 
@@ -25,10 +27,12 @@ fi
 [ -z "${TplVars}" ] && TplVars=("${@:3}")
 
 ### 设置模板变量
-for VarString in ${TplVars[@]}
-do
-    eval $VarString
-done
+if [ "${TplVars[*]}" != "" ]; then
+    for VarString in ${TplVars[@]}
+    do
+        eval ${VarString}
+    done
+fi
 
 ### 判断是否设置了模板内容变量
 [ -f "${TplContent}" ] && TplContent=$(cat ${TplContent})
