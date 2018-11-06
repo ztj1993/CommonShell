@@ -2,19 +2,24 @@
 
 ###############
 # Name: 路径备份
-# author: ZhangTianJie
-# email: ztj1993@gmail.com
-# Params 1: <OriginalPath>(FilePath|DirPath|Required)
-# Params 2: <TargetPath>(DirPath)
-# Params 3: <PathAlias>(FileName|DirName)
-# Returns: 0:skip-quit   1:error
+# Author: ZhangTianJie
+# Email: ztj1993@gmail.com
+# Params: <OriginalPath>(FilePath|DirPath|Required)
+# Params: <TargetPath|Optional>(DirPath)
+# Params: <PathAlias|Optional>(FileName|DirName)
+# Return=0: success
+# Return=1: failure
+# Output: error message
 ###############
 
 ### 定义帮助文本
 if [ "${1}" == "help" ]; then
-    echo ">>> param 1 <OriginalPath>(FilePath|DirPath|Required)"
-    echo ">>> param 2 <TargetPath>(DirPath)"
-    echo ">>> param 3 <PathAlias>(FileName|DirName)"
+    echo ">>> Params: <OriginalPath>(FilePath|DirPath|Required)"
+    echo ">>> Params: <TargetPath|Optional>(DirPath)"
+    echo ">>> Params: <PathAlias|Optional>(FileName|DirName)"
+    echo ">>> Return=0: success"
+    echo ">>> Return=1: failure"
+    echo ">>> Output: error message"
     exit
 fi
 
@@ -41,4 +46,4 @@ fi
 ### 按日期备份
 DateTime=`date +%Y-%m-%d-%H-%M-%S`
 sudo cp -fR "${OriginalPath}" "${TargetPath}/${PathAlias}.bak.${DateTime}"
-[ $? -ne 0 ] && echo ">>>>> Error: backup path error" && exit 1
+[ $? -ne 0 ] && echo ">>>>> Error: backup <${OriginalPath}> error" && exit 1
