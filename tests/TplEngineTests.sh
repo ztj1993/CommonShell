@@ -27,7 +27,7 @@ server {
     ssl_certificate <%=${SslSign}=%>.crt;
     ssl_certificate_key <%=${SslSign}=%>.key;
 }
-' | sudo tee "${ShellPath}/TplEngine.tests.tpl"
+' | tee "${ShellPath}/TplEngine.tests.tpl"
 
 ### 引入测试
 echo "----- 测试 Source 模式 -----"
